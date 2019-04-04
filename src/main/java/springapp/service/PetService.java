@@ -32,7 +32,7 @@ public class PetService {
 	}
 	
 	public Pet savePet(PetCommand command) {
-		Pet newPet = new Pet(command.getId(), command.getName(), command.getGender(), command.isAltered(), command.getClientId());
+		Pet newPet = new Pet(command.getId(), command.getName(), command.getGender(), command.isAltered(), command.getClientId(), command.getAge());
 		return petDao.save(newPet);
 	}
 }

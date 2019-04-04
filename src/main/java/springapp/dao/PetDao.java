@@ -35,7 +35,7 @@ public class PetDao {
 				gender = Gender.valueOf(genderString);
 
 			}
-			return new Pet(rs.getInt("id"), rs.getString("name"), gender, rs.getBoolean("altered"), rs.getInt("client_id"));
+			return new Pet(rs.getInt("id"), rs.getString("name"), gender, rs.getBoolean("altered"), rs.getInt("client_id"), rs.getInt("age"));
 		}
 	};
 	
@@ -45,7 +45,7 @@ public class PetDao {
     	
 	public List<Pet> list(){
 		List<Pet> queryResult = jdbcTemplate.query(
-				"SELECT id, name, gender, altered, client_id FROM pets",
+				"SELECT id, name, gender, altered, client_id, age FROM pets",
 				simplePetMapper);
 		
 		
@@ -54,7 +54,7 @@ public class PetDao {
 	
 	public List<Pet> listForClient(int clientId){
 		List<Pet> queryResult = jdbcTemplate.query(
-				"SELECT id, name, gender, altered, client_id FROM pets WHERE client_id = ?",
+				"SELECT id, name, gender, altered, client_id, age FROM pets WHERE client_id = ?",
 				new Object[] {clientId},
 				simplePetMapper);
 		
@@ -64,7 +64,7 @@ public class PetDao {
 	
 	public Pet get(int id) {
 		List<Pet> queryResult = jdbcTemplate.query(
-				"SELECT id, name, gender, altered, client_id FROM pets WHERE id = ? LIMIT 1", 
+				"SELECT id, name, gender, altered, client_id, age FROM pets WHERE id = ? LIMIT 1", 
 				new Object[] {id},
 				simplePetMapper);
 		
@@ -87,11 +87,12 @@ public class PetDao {
 				
 				@Override
 				public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-					PreparedStatement statement = con.prepareStatement("INSERT INTO pets(name, gender, altered, client_id) VALUES (?, ?, ?, ?)");
+					PreparedStatement statement = con.prepareStatement("INSERT INTO pets(name, gender, altered, client_id, age) VALUES (?, ?, ?, ?, ?)");
 					statement.setString(1, pet.getName());
 					statement.setObject(2, pet.getGender());
 					statement.setBoolean(3, pet.isAltered());
 					statement.setInt(4, pet.getClientId());
+					statement.setInt(5, pet.getAge());
 					return statement;
 
 				}
@@ -101,8 +102,8 @@ public class PetDao {
 			
 		} else {
 			// notice that we do not update the client id since we do not want to enable pet transfer from this method
-			jdbcTemplate.update("UPDATE pets SET name = ?, gender = ? , altered = ?  WHERE id = ?",
-					new Object[] {pet.getName(), pet.getGender(), pet.isAltered(), id});
+			jdbcTemplate.update("UPDATE pets SET name = ?, gender = ? , altered = ?, age = ?  WHERE id = ?",
+					new Object[] {pet.getName(), pet.getGender(), pet.isAltered(), pet.getAge(), id});
 		}
 		
 		return get(id);

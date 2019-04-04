@@ -6,13 +6,15 @@ public class Pet {
 	private final Gender gender;
 	private final boolean altered;
 	private final Integer clientId;
+	private final Integer age;
 	
-	public Pet(Integer id, String name, Gender gender, boolean altered, Integer clientId ){
+	public Pet(Integer id, String name, Gender gender, boolean altered, Integer clientId, Integer age ){
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
 		this.altered = altered;
 		this.clientId = clientId;
+		this.age = age;
 	}
 	
 	public Integer getId() {
@@ -35,6 +37,9 @@ public class Pet {
 		return clientId;
 	}
 
+	public Integer getAge() {
+		return age;
+	}
 	
 }
 

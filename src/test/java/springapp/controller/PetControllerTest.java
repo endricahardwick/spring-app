@@ -1,5 +1,4 @@
 package springapp.controller;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -14,7 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import springapp.domain.Client;
+import springapp.domain.Gender;
+import springapp.domain.Pet;
 import springapp.service.ClientService;
+import springapp.service.PetService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ClientControllerTest {
 
-    static List<Client> clients = new ArrayList();
+
+public class PetControllerTest {
+
+    static List<Pet> pets = new ArrayList();
     static  {
-        clients.add(new Client(1, "John Doe", "555-555-5555", "1234 main street", "email"));
-        clients.add(new Client(2, "Jane Smith", "555-123-1234", "9876 country road", "email"));
+        pets.add(new Pet(1, "Sparky", Gender.Male, true, 10, 1));
+        pets.add(new Pet(2, "Bootsie", Gender.Female, false, 3, 2));
 
     }
 
@@ -42,21 +46,21 @@ public class ClientControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private ClientService clientService;
+    private PetService petService;
 
     @Test
-    @WithMockUser(value = "test", password = "pass", authorities = {"LIST_CLIENTS"})
+    @WithMockUser(value = "test", password = "pass", authorities = {"LIST_PETS"})
     public void exampleTest() throws Exception {
-        given(clientService.getClients()).willReturn(clients);
-        MvcResult result = this.mvc.perform(get("/clients"))
+        given(petService.getPets()).willReturn(pets);
+        MvcResult result = this.mvc.perform(get("/pets"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         Document doc = Jsoup.parse(content);
-        assertThat(content, doc.select("a[href='/clients/1']").text(), is("1"));
-        assertThat(content, doc.select("a[href='/clients/2']").text(), is("2"));
+        assertThat(content, doc.select("a[href='/pets/1']").text(), is("1"));
+        assertThat(content, doc.select("a[href='/pets/2']").text(), is("2"));
     }
 
 }

@@ -15,6 +15,7 @@ public class PetCommand {
 	private Gender gender;
 	private Integer clientId;
 	private Client client;
+	private Integer age;
 
 	/**
 	 * Initialise an empty pet command with the client id set
@@ -35,6 +36,7 @@ public class PetCommand {
 			this.name = pet.getName();
 			this.altered = pet.isAltered();
 			this.gender = pet.getGender();
+			this.age = pet.getAge();
 		}
 	}
 
@@ -133,7 +135,20 @@ public class PetCommand {
 		this.client = client;
 	}
 	
-	
+	/**
+	 * @return the age object associated with the pet
+	 */
+	public Integer getAge() {
+		return age;
+	}
+
+	/**
+	 * Set the age associated with the pet
+	 * @param age the age
+	 */
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 	
 	
 	

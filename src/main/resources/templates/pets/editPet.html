@@ -20,7 +20,7 @@
 					<form class="pure-form pure-form-aligned" id="theForm" action="#" data-th-action="@{/pets}" data-th-object="${command}" method="post">
 						<input type="hidden" data-th-field="*{id}"/>
 						<input type="hidden" data-th-field="*{clientId}"/>
-						<input type="hidden" id="fromClientPage" name="fromClientPage" data-th-value="${fromClientPage}"/>
+						<input type="hidden" id="fromClientPage" address="fromClientPage" name="fromClientPage" data-th-value="${fromClientPage}"/>
 						
 					    <div data-th-if="${saved}" class="message-box-info">
 							Saved
@@ -28,7 +28,12 @@
 
 						<div class="pure-control-group">
 				            <label>Client</label>
-				            <span data-th-text="${command.client.name}"> client </span>
+				            <a data-th-href = "@{/clients/{id}(id=*{clientId})}" data-th-text="${command.client.name}"> client </a>
+				        </div>
+				        
+				        <div class="pure-control-group">
+				            <label>Address</label>
+				            <span data-th-text="${command.client.address}"> client </span>
 				        </div>
 				        
 						<div class="pure-control-group">
@@ -40,6 +45,11 @@
 				        <div class="pure-control-group">
 				            <label for="name">Name</label>
 				            <input id="name" name="name" type="text" data-th-field="*{name}">
+				        </div>
+				        
+				        <div class="pure-control-group">
+				            <label for="age">Age</label>
+				            <input id="age" name="age" type="text" data-th-field="*{age}">
 				        </div>
 
 				        <div class="pure-control-group">
